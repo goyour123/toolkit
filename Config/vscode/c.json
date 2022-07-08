@@ -1,0 +1,68 @@
+{
+	// Place your snippets for c here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	"EfiDebug": {
+		"prefix": "efidebug",
+		"body": [
+			"DEBUG ((EFI_D_INFO, \"%a $0: %x\\n\", __FUNCTION__, ${1:Variable}));"
+		],
+		"description": "Insert efidebug message with variable"
+	},
+	"EfiDebug Message": {
+		"prefix": "efidebugMessage",
+		"body": [
+			"DEBUG ((EFI_D_INFO, \"%a $0\\n\", __FUNCTION__));"
+		],
+		"description": "Insert efidebug message only"
+	},
+	"EfiDebug Memory Map": {
+		"prefix": "efidebugMemoryMap",
+		"body": [
+			"{",
+			"  UINT16 Index;",
+			"  DEBUG ((EFI_D_INFO, \"%a $0\\n\", __FUNCTION__));",
+			"  for (Index = 0; Index <= 0xff; Index++) {",
+			"    DEBUG ((EFI_D_INFO, \"%02x \", *((UINT8*)(UINTN)(${1:MemAddr}) + Index)));",
+			"    if (Index % 0x10 == 0xf) {",
+			"      DEBUG ((EFI_D_INFO, \"\\n\"));",
+			"    }",
+			"  }",
+			"}"
+		],
+		"description": "Insert efidebug for memory map"
+	},
+	"Optimize Off": {
+		"prefix": "optimizeOff",
+		"body": [
+			"#pragma optimize(\"\", off)"
+		],
+		"description": "Insert Optimization Off"
+	},
+	"Optimize On": {
+		"prefix": "optimizeOn",
+		"body": [
+			"#pragma optimize(\"\", on)"
+		],
+		"description": "Insert Optimization On"
+	},
+	"Print": {
+		"prefix": "print",
+		"body": [
+			"Print (L\"$0\\n\");"
+		],
+		"description": "Insert Print function"
+	},
+	"gBS->LocateProtocol": {
+		"prefix": "locateProtocol",
+		"body": [
+			"Status = gBS->LocateProtocol (",
+			"                &gEfiXXXProtocolGuid,",
+			"                NULL,",
+			"                (VOID **)&XXXProtocol",
+			"                );"
+		],
+		"description": "Insert Print function"
+	},
+}

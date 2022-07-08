@@ -1,0 +1,91 @@
+header {
+  height: 60px;
+  text-align: center;
+}
+
+h1 {
+  height: 30px;
+  font-family: Roboto;
+  font-size: 36px;
+  font-weight: 100;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: #1f233e;
+  padding-top: 200px;
+}
+
+.container {
+  width: 50%;
+  height: 920px;
+  margin: auto;
+  text-align: left;
+  float: left;
+}
+
+#pci2mmio {
+  background-color: #0087de;
+}
+
+#mmio2pci {
+  background-color: #3bc9bc;
+  float: right;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: right;
+}
+
+#text{
+  font-size: 18px;
+}
+
+.input {
+  width: 85px;
+  height: 30px;
+  border-radius: 3px;
+  border: solid 0.8px #1f233e;
+  font-family: Source Sans Pro;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  display: inline-block;
+}
+
+#iBus {
+  margin-right: 10px;
+}
+#iDev {
+  margin-right: 10px;
+}
+
+#select {
+  width: 85px;
+  height: 30px;
+  text-align: center;
+  font-size: 15px;
+  border-radius: 3px;
+  border: solid 0.8px #1f233e;
+}
+
+.btn {
+  text-align: center;
+  margin-top: 10px;
+}
+
+button {
+  width: 200px;
+  height: 30px;
+  font-family: Source Sans Pro;
+  font-size: 22px;
+  letter-spacing: 1.4px;
+  border-radius: 10px;
+  border:none;
+  background-color: #E74C3C;
+  color: #ffffff;
+}
+
+.response {
+  margin-top: 30px;
+}

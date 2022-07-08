@@ -1,0 +1,16 @@
+{
+    "workbench.colorTheme": "Monokai Dimmed",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Build": true
+    },
+    "files.associations": {
+        "*.asi": "asl"
+    },
+    "editor.tabSize": 2,
+    "editor.copyWithSyntaxHighlighting": false
+}
