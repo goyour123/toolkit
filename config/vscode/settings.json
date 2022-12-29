@@ -1,5 +1,6 @@
 {
     "workbench.colorTheme": "Monokai Dimmed",
+    "files.trimTrailingWhitespace": true,
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -12,5 +13,20 @@
         "*.asi": "asl"
     },
     "editor.tabSize": 2,
-    "editor.copyWithSyntaxHighlighting": false
+    "editor.copyWithSyntaxHighlighting": false,
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Python: This file",
+                "type": "python",
+                "request": "launch",
+                "program": "${file}",
+                "console": "integratedTerminal",
+                "justMyCode": true,
+                "cwd": "${fileDirname}",
+                "args": []
+            }
+        ]
+    }
 }
