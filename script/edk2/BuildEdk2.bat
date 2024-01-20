@@ -31,6 +31,14 @@ set BUILD_OPTIONS=
 
 @for %%a in (%BUILD_ARCH%) do @set BUILD_ARCH_OPTIONS=!BUILD_ARCH_OPTIONS! -a %%a
 
+@if "%BUILD_ARCH%" == "IA32 X64" (
+  set OVMF_BUILD=Ovmf3264
+  set OVMF_DSC=OvmfPkgIa32X64
+) else (
+  set OVMF_BUILD=OvmfX64
+  set OVMF_DSC=OvmfPkgX64
+)
+
 @REM Gen 123IVPkg.bat
 echo build -p 123IVPkg\123IVPkg.dsc -t %BUILD_TOOL_CHAIN% -b %BUILD_TARGET% %BUILD_ARCH_OPTIONS% > %cd%\Build123IVPkg.bat
 
@@ -43,7 +51,7 @@ echo build -p EmulatorPkg\EmulatorPkg.dsc -t %BUILD_TOOL_CHAIN% -b %BUILD_TARGET
 ) else (
   set "BUILD_OPTIONS=-D NETWORK_ENABLE=FALSE"
 )
-echo build -p OvmfPkg\OvmfPkgX64.dsc -t %BUILD_TOOL_CHAIN% -b %BUILD_TARGET% %BUILD_ARCH_OPTIONS% %BUILD_OPTIONS%> %cd%\BuildOvmf.bat
+echo build -p OvmfPkg\%OVMF_DSC%.dsc -t %BUILD_TOOL_CHAIN% -b %BUILD_TARGET% %BUILD_ARCH_OPTIONS% %BUILD_OPTIONS%> %cd%\BuildOvmf.bat
 
 @REM Gen RunEmulator.bat
 echo pushd %cd%\Build\EmulatorX64\%BUILD_TARGET%_%BUILD_TOOL_CHAIN%\X64 > %cd%\RunEmulator.bat
@@ -52,9 +60,9 @@ echo popd >> %cd%\RunEmulator.bat
 
 @REM Gen RunOvmf.bat
 @set RUN_OVMF_SCRIPT=%cd%\RunOvmf.bat
-@set FS_DIR=%EDK_WORKSPACE%\%EDK_REPO%\Build\OvmfX64\%BUILD_TARGET%_%BUILD_TOOL_CHAIN%\X64
+@set FS_DIR=%EDK_WORKSPACE%\%EDK_REPO%\Build\%OVMF_BUILD%\%BUILD_TARGET%_%BUILD_TOOL_CHAIN%\X64
 
-echo @set OVMF_BIOS=%EDK_WORKSPACE%\%EDK_REPO%\Build\OvmfX64\%BUILD_TARGET%_%BUILD_TOOL_CHAIN%\FV\OVMF.fd > %RUN_OVMF_SCRIPT%
+echo @set OVMF_BIOS=%EDK_WORKSPACE%\%EDK_REPO%\Build\%OVMF_BUILD%\%BUILD_TARGET%_%BUILD_TOOL_CHAIN%\FV\OVMF.fd > %RUN_OVMF_SCRIPT%
 echo @set FS_DIR=%FS_DIR% >> %cd%\RunOvmf.bat
 echo @set "QEMU_ARG=-bios %%OVMF_BIOS%%" >> %cd%\RunOvmf.bat
 echo @if not "%%FS_DIR%%" == "" ( >> %cd%\RunOvmf.bat
@@ -62,6 +70,8 @@ echo   @set "QEMU_ARG=-hda fat:rw:%%FS_DIR%% %%QEMU_ARG%%"  >> %cd%\RunOvmf.bat
 echo ) >> %cd%\RunOvmf.bat
 @if "%BUILD_TARGET%" == "NOOPT" (
   echo @set "QEMU_ARG=-serial tcp:localhost:20716,server %%QEMU_ARG%%" >> %cd%\RunOvmf.bat
+) else (
+  echo @set "QEMU_ARG=-debugcon file:debug.log -global isa-debugcon.iobase=0x402 %%QEMU_ARG%%" >> %cd%\RunOvmf.bat
 )
 
 echo @pushd %QEMU_HOME% >> %cd%\RunOvmf.bat
