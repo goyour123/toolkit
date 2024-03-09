@@ -31,6 +31,16 @@ set BUILD_OPTIONS=
 
 @for %%a in (%BUILD_ARCH%) do @set BUILD_ARCH_OPTIONS=!BUILD_ARCH_OPTIONS! -a %%a
 
+@REM OVMF setting
+@REM OVMF_OPTION=EFI_DEBUG or SOURCE_DEBUG
+set OVMF_OPTION=EFI_DEBUG
+@if "%OVMF_OPTION%" == "EFI_DEBUG" (
+  set "OVMF_BUILD_OPTIONS=-D NETWORK_ENABLE=FALSE -D DEBUG_ON_SERIAL_PORT"
+) else if "%OVMF_OPTION%" == "SOURCE_DEBUG" (
+  set "OVMF_BUILD_OPTIONS=-D NETWORK_ENABLE=FALSE -D SOURCE_DEBUG_ENABLE=TRUE -D DEBUG_ON_SERIAL_PORT"
+) else (
+  set "OVMF_BUILD_OPTIONS=-D NETWORK_ENABLE=FALSE -D DEBUG_ON_SERIAL_PORT"
+)
 @if "%BUILD_ARCH%" == "IA32 X64" (
   set OVMF_BUILD=Ovmf3264
   set OVMF_DSC=OvmfPkgIa32X64
@@ -46,11 +56,7 @@ echo build -p 123IVPkg\123IVPkg.dsc -t %BUILD_TOOL_CHAIN% -b %BUILD_TARGET% %BUI
 echo build -p EmulatorPkg\EmulatorPkg.dsc -t %BUILD_TOOL_CHAIN% -b %BUILD_TARGET% -a X64 > %cd%\BuildEmulator.bat
 
 @REM Gen BuildOvmf.bat
-@if "%BUILD_TARGET%" == "NOOPT" (
-  set "BUILD_OPTIONS=-D NETWORK_ENABLE=FALSE -D SOURCE_DEBUG_ENABLE=TRUE -D DEBUG_ON_SERIAL_PORT"
-) else (
-  set "BUILD_OPTIONS=-D NETWORK_ENABLE=FALSE"
-)
+set "BUILD_OPTIONS=%OVMF_BUILD_OPTIONS% %BUILD_OPTIONS%"
 echo build -p OvmfPkg\%OVMF_DSC%.dsc -t %BUILD_TOOL_CHAIN% -b %BUILD_TARGET% %BUILD_ARCH_OPTIONS% %BUILD_OPTIONS%> %cd%\BuildOvmf.bat
 
 @REM Gen RunEmulator.bat
@@ -68,7 +74,9 @@ echo @set "QEMU_ARG=-bios %%OVMF_BIOS%%" >> %cd%\RunOvmf.bat
 echo @if not "%%FS_DIR%%" == "" ( >> %cd%\RunOvmf.bat
 echo   @set "QEMU_ARG=-hda fat:rw:%%FS_DIR%% %%QEMU_ARG%%"  >> %cd%\RunOvmf.bat
 echo ) >> %cd%\RunOvmf.bat
-@if "%BUILD_TARGET%" == "NOOPT" (
+@if "%OVMF_OPTION%" == "EFI_DEBUG" (
+  echo @set "QEMU_ARG=-serial COM3 %%QEMU_ARG%%" >> %cd%\RunOvmf.bat
+) else if "%OVMF_OPTION%" == "SOURCE_DEBUG" (
   echo @set "QEMU_ARG=-serial tcp:localhost:20716,server %%QEMU_ARG%%" >> %cd%\RunOvmf.bat
 ) else (
   echo @set "QEMU_ARG=-debugcon file:debug.log -global isa-debugcon.iobase=0x402 %%QEMU_ARG%%" >> %cd%\RunOvmf.bat
