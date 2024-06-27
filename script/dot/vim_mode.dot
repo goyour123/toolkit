@@ -1,0 +1,16 @@
+digraph vim_mode {
+    
+    node0 [label="Normal Mode" style=filled fillcolor=blue]
+    node1 [label="Insert Mode" shape=box style=filled fillcolor=orange]
+    node2 [label="Command Line Mode" shape=box style=filled fillcolor=orange]
+    node3 [label="Visual Mode" shape=box style=filled fillcolor=orange]
+
+    node0 -> node1 [label="i or Insert"]
+    node1 -> node0 [label="Esc        "]
+
+    node0 -> node2 [label=": or / or ?     "]
+    node2 -> node0 [label="Esc "]
+
+    node0 -> node3 [label="^v   "]
+    node3 -> node0 [label="Esc   "]
+}
