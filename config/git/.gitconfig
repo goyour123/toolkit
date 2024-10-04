@@ -1,0 +1,2 @@
+[alias]
+	lg = log --pretty=format:'%Cred%h%Creset - %Cgreen(%cs)%Creset %s %C(bold blue)<%an>'
