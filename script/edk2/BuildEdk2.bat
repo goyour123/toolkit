@@ -17,8 +17,8 @@ set QEMU_HOME=C:\Program Files\qemu
 @for /f "delims=\ tokens=1" %%a in ("%QEMU_HOME%") do @set QEMU_DRIVE=%%a
 
 @REM set EDK_TOOLS_BIN=%EDK_WORKSPACE%\edk2-BaseTools-win32
-set NASM_PREFIX=%EDK_WORKSPACE%\nasm-2.15.05\
-set IASL_PREFIX=%EDK_WORKSPACE%\iasl-win-20210930\
+set NASM_PREFIX=%EDK_WORKSPACE%\nasm-2.16.03\
+set IASL_PREFIX=%EDK_WORKSPACE%\iasl-win-20241212\
 
 cd %EDK_WORKSPACE%\%EDK_REPO%\
 

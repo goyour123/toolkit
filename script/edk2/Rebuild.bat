@@ -10,7 +10,7 @@ set EDK_REPO=edk2
 @REM set PYTHON_HOME=C:\Python27
 set CYGWIN_HOME=C:\cygwin64
 
-set NASM_PREFIX=%EDK_WORKSPACE%\nasm-2.15.05\
+set NASM_PREFIX=%EDK_WORKSPACE%\nasm-2.16.03\
 
 pushd %EDK_WORKSPACE%\%EDK_REPO%\
 
