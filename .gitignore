@@ -5,5 +5,7 @@ __pycache__/
 .vscode/*
 
 # Output files
+dmidecode/*.json
+dmidecode/*.tar.gz
 
 # User-specific files
