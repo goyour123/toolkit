@@ -1,6 +1,6 @@
 #!/bin/bash
 TARGET_PATH="."
-TARGET_DIR="OUTPUT"
+TARGET_DIR="dmidecode_dump"
 mkdir -p "$TARGET_PATH/$TARGET_DIR"
 
 echo "Dump SMBIOS files..."
@@ -18,4 +18,3 @@ sudo ./dmidecode -t 32 > "$TARGET_PATH/$TARGET_DIR/smbios_type_32.txt"
 
 echo "Pack SMBIOS dump files..."
 tar zcvf $TARGET_DIR.tar.gz $TARGET_DIR
-
