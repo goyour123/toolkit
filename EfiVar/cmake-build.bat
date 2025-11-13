@@ -1,2 +1,2 @@
 cmake --build .\build
-copy .\build\Debug\EfiVarTest.exe .\
+copy .\build\EfiVarTest.exe .\

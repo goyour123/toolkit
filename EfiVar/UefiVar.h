@@ -6,11 +6,11 @@
 
 class GlobalVariable {
 private:
-  LPCSTR varName;
   LPCSTR varGuid;
-  UINT8  varBuffer[BUFFER_SIZE];
   DWORD  varSize;
 public:
+  LPCSTR varName;
+  UINT8  varBuffer[BUFFER_SIZE];
   GlobalVariable (LPCSTR VariableName);
   VOID Init ();
   DWORD GetSize ();

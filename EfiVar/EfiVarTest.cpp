@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "UefiVar.h"
 
 using namespace std;
@@ -52,6 +53,24 @@ SetPrivilege (
   return TRUE;
 }
 
+VOID
+PrintVar (
+  GlobalVariable var
+  )
+{
+  cout << "------------------------" << endl;
+  cout << "Variable Name: " << var.varName << endl;
+  cout << "Var Size:" << var.GetSize() << endl;
+  for (DWORD index = 0; index < var.GetSize(); index++) {
+    cout << hex << setfill('0') << setw(2) << (int)(var.varBuffer[index]) << " ";
+    if (index % 0x10 == 0xF) {
+      cout << endl;
+    }
+  }
+  cout << endl;
+  cout << "------------------------" << endl;
+}
+
 INT main()
 {
   HANDLE pTkn;
@@ -73,7 +92,7 @@ INT main()
   GLOBAL_VARIABLES
 #undef X
 
-#define X(name) cout << var##name.GetSize() << endl;
+#define X(name) PrintVar (var##name);
   GLOBAL_VARIABLES
 #undef X
 
