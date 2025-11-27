@@ -71,7 +71,7 @@ PrintVar (
   cout << "------------------------" << endl;
 }
 
-INT main()
+INT main(INT argc, CHAR* argv[])
 {
   HANDLE pTkn;
 #define X(name) GlobalVariable var##name (#name);
@@ -88,13 +88,23 @@ INT main()
     return 0;
   }
 
-#define X(name) var##name.Init();
-  GLOBAL_VARIABLES
-#undef X
+  if (argc < 2) {
+    cout << "Usage: EfiVarTest.exe -l" << endl;
+    cout << "  -l : List UEFI variables" << endl;
+    return 0;
+  }
 
-#define X(name) PrintVar (var##name);
-  GLOBAL_VARIABLES
-#undef X
+  if (strcmp (argv[1], "-l") == 0) {
+    #define X(name) var##name.Init();
+      GLOBAL_VARIABLES
+    #undef X
+
+    #define X(name) PrintVar (var##name);
+      GLOBAL_VARIABLES
+    #undef X
+  } else {
+    cout << "Unknown option: " << argv[1] << endl;
+  }
 
   return 0;
 }
