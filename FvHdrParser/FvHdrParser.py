@@ -7,6 +7,8 @@ FV_HEADER_SIZE = 0x48
 FV_SIGNATURE = b'_FVH'
 FV_BLOCK_SIZE = 0x1000
 
+SYSTEM_NV_DATA_FV_GUID = 'fff12b8d-7696-4c8b-a985-2747075b4f50'
+
 class Guid(ctypes.LittleEndianStructure):
     _fields_ = [
         ('Data1', ctypes.c_uint32),
@@ -39,10 +41,10 @@ class FvHeader(ctypes.LittleEndianStructure):
 def calculate_checksum(fv_header):
     header_bytes = bytearray(fv_header)
     checksum = 0
-    for i in range(0, len(header_bytes), 2):
-        if i == FvHeader.Checksum.offset:
+    for offset in range(0, len(header_bytes), 2):
+        if offset == FvHeader.Checksum.offset:
             continue
-        word = header_bytes[i] | (header_bytes[i + 1] << 8)
+        word = header_bytes[offset] | (header_bytes[offset + 1] << 8)
         checksum = ((checksum + word) & 0xFFFF)
     checksum = 0x10000 - checksum
     return checksum
@@ -50,7 +52,7 @@ def calculate_checksum(fv_header):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--file_path', type=os.path.abspath, required=True)
-    parser.add_argument('-g', '--fv_guid', type=uuid.UUID, required=False)
+    parser.add_argument('-g', '--fv_guid', type=uuid.UUID, required=False, default=SYSTEM_NV_DATA_FV_GUID)
     args = parser.parse_args()
 
     file_size = os.stat(args.file_path).st_size
@@ -74,3 +76,4 @@ if __name__ == '__main__':
             print (f"  Checksum: {hex(fv_header.Checksum)}")
             calculated_checksum = calculate_checksum(fv_header)
             print (f"  Calculated Checksum: {hex(calculated_checksum)}")
+            print (f"{os.linesep}")
