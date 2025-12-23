@@ -67,12 +67,12 @@ echo popd >> %cd%\RunEmulator.bat
 @REM Gen RunOvmf.bat
 @set RUN_OVMF_SCRIPT=%cd%\RunOvmf.bat
 @set FS_DIR=%EDK_WORKSPACE%\%EDK_REPO%\Build\%OVMF_BUILD%\%BUILD_TARGET%_%BUILD_TOOL_CHAIN%\X64\FS\
-@if not exist %FS_DIR% (
-  @mkdir %FS_DIR%
-)
 
 echo @set OVMF_BIOS=%EDK_WORKSPACE%\%EDK_REPO%\Build\%OVMF_BUILD%\%BUILD_TARGET%_%BUILD_TOOL_CHAIN%\FV\OVMF.fd > %RUN_OVMF_SCRIPT%
 echo @set FS_DIR=%FS_DIR% >> %cd%\RunOvmf.bat
+echo @if not exist %FS_DIR% ( >> %cd%\RunOvmf.bat
+echo   @mkdir %FS_DIR% >> %cd%\RunOvmf.bat
+echo ) >> %cd%\RunOvmf.bat
 echo @set "QEMU_ARG=-bios %%OVMF_BIOS%%" >> %cd%\RunOvmf.bat
 echo @if not "%%FS_DIR%%" == "" ( >> %cd%\RunOvmf.bat
 echo   @set "QEMU_ARG=-hda fat:rw:%%FS_DIR%% %%QEMU_ARG%%"  >> %cd%\RunOvmf.bat
