@@ -1,2 +1,13 @@
+[core]
+	editor = nvim
 [alias]
-	lg = log --pretty=format:'%Cred%h%Creset - %Cgreen(%cs)%Creset %s %C(bold blue)<%an>'
+	s = status
+	lg = log --pretty=format:'%Cred%h%Creset - %C(auto)%(decorate) %s %C(blue)<%an>'
+	amend = commit --amend --no-edit
+	cp = cherry-pick
+	cpc = cherry-pick --continue --no-edit
+	cps = cherry-pick --skip
+	rc = rebase --continue
+	sm = submodule
+[init]
+	defaultBranch = main
